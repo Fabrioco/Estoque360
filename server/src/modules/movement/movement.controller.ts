@@ -39,6 +39,9 @@ export class MovementController {
 
   @Delete(":id")
   remove(@Param("id") id: string) {
+    if(isNaN(+id)) {
+      throw new ConflictException("Id inválido");
+    }
     return this.movementService.remove(+id);
   }
 }

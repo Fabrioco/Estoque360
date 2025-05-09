@@ -64,7 +64,19 @@ export class MovementService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} movement`;
+  async remove(id: number) {
+    try {
+      const movement = await this.movementRepository.findOneBy({ id });
+      if (!movement) {
+        return "Movimentação não encontrado";
+      }
+      await this.movementRepository.delete(id);
+      return "Movimentação removido com sucesso";
+    } catch (error) {
+      if (error instanceof ConflictException) {
+        throw new ConflictException(error.message);
+      }
+      throw new InternalServerErrorException(error);
+    }
   }
 }
