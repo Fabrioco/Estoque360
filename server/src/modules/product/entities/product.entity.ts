@@ -1,5 +1,6 @@
 import { IsNumber, IsOptional, IsString } from "@nestjs/class-validator";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Movement } from "src/modules/movement/entities/movement.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Product {
@@ -23,4 +24,7 @@ export class Product {
 
   @Column({ type: "decimal", precision: 10, scale: 2 })
   salePrice: number;
+
+  @OneToMany(() => Movement, movement => movement.product)
+  movements: Movement[];
 }
