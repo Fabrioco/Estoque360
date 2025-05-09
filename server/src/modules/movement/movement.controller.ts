@@ -9,7 +9,7 @@ export class MovementController {
 
   @Post()
   create(@Body() createMovementDto: CreateMovementDto) {
-    if (!createMovementDto.productId || !createMovementDto.type || !createMovementDto.quantity) {
+    if (!createMovementDto.productId || !createMovementDto.type) {
       throw new ForbiddenException("Preencha todos os campos");
     }
     createMovementDto.date = new Date().toISOString();
