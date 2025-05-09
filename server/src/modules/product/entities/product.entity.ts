@@ -1,5 +1,5 @@
 import { IsNumber, IsOptional, IsString } from "@nestjs/class-validator";
-import { Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Product {
@@ -7,19 +7,28 @@ export class Product {
   @IsNumber()
   id: number;
 
+  @Column()
   @IsString()
   name: string;
 
+  @Column()
   @IsString()
   @IsOptional()
   description?: string;
 
+  @Column()
   @IsNumber()
   currentQuantity: number;
 
+  @Column()
   @IsNumber()
   minQuantity: number;
 
+  @Column()
+  @IsNumber()
+  salePrice: number;
+
+  @Column()
   @IsNumber()
   purchasePrice: number;
 }
