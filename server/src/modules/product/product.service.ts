@@ -64,7 +64,19 @@ export class ProductService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(id: number) {
+    try {
+      const product = await this.productRepository.findOneBy({ id });
+      if (!product) {
+        return "Produto não encontrado";
+      }
+      await this.productRepository.delete(id);
+      return "Produto removido com sucesso";
+    } catch (error) {
+      if (error instanceof ConflictException) {
+        throw new ConflictException(error.message);
+      }
+      throw new InternalServerErrorException(error);
+    }
   }
 }

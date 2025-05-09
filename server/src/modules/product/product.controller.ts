@@ -38,6 +38,9 @@ export class ProductController {
 
   @Delete(":id")
   remove(@Param("id") id: string) {
+    if (isNaN(+id)) {
+      throw new ConflictException("Id inválido");
+    }
     return this.productService.remove(+id);
   }
 }
