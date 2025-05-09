@@ -36,8 +36,16 @@ export class ProductService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(id: number) {
+    try {
+      const product = await this.productRepository.findOneBy({ id });
+      return product ? product : "Produto não encontrado";
+    } catch (error) {
+      if (error instanceof ConflictException) {
+        throw new ConflictException(error.message);
+      }
+      throw new InternalServerErrorException(error);
+    }
   }
 
   update(id: number, updateProductDto: UpdateProductDto) {

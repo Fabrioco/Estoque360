@@ -9,13 +9,7 @@ export class ProductController {
 
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
-    if (
-      !createProductDto.name ||
-      !createProductDto.currentQuantity ||
-      !createProductDto.minQuantity ||
-      !createProductDto.purchasePrice ||
-      !createProductDto.salePrice
-    ) {
+    if (!createProductDto.name || !createProductDto.currentQuantity || !createProductDto.minQuantity || !createProductDto.purchasePrice || !createProductDto.salePrice) {
       throw new ConflictException("Preencha todos os campos");
     }
     return this.productService.create(createProductDto);
@@ -28,6 +22,9 @@ export class ProductController {
 
   @Get(":id")
   findOne(@Param("id") id: string) {
+    if (isNaN(+id)) {
+      throw new ConflictException("Id inválido");
+    }
     return this.productService.findOne(+id);
   }
 
