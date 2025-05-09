@@ -1,14 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { MovementService } from './movement.service';
-import { CreateMovementDto } from './dto/create-movement.dto';
-import { UpdateMovementDto } from './dto/update-movement.dto';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ConflictException, ForbiddenException } from "@nestjs/common";
+import { MovementService } from "./movement.service";
+import { CreateMovementDto } from "./dto/create-movement.dto";
+import { UpdateMovementDto } from "./dto/update-movement.dto";
 
-@Controller('movement')
+@Controller("movement")
 export class MovementController {
   constructor(private readonly movementService: MovementService) {}
 
   @Post()
   create(@Body() createMovementDto: CreateMovementDto) {
+    if (!createMovementDto.productId || !createMovementDto.type || !createMovementDto.quantity) {
+      throw new ForbiddenException("Preencha todos os campos");
+    }
+    createMovementDto.date = new Date().toISOString();
     return this.movementService.create(createMovementDto);
   }
 
@@ -17,18 +21,18 @@ export class MovementController {
     return this.movementService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get(":id")
+  findOne(@Param("id") id: string) {
     return this.movementService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMovementDto: UpdateMovementDto) {
+  @Patch(":id")
+  update(@Param("id") id: string, @Body() updateMovementDto: UpdateMovementDto) {
     return this.movementService.update(+id, updateMovementDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Delete(":id")
+  remove(@Param("id") id: string) {
     return this.movementService.remove(+id);
   }
 }
