@@ -24,8 +24,16 @@ export class ProductService {
     }
   }
 
-  findAll() {
-    return `This action returns all product`;
+  async findAll(): Promise<Product[] | string> {
+    try {
+      const products = await this.productRepository.find();
+      return products ? products : "Você não possui nenhum produto cadastrado";
+    } catch (error) {
+      if (error instanceof ConflictException) {
+        throw new ConflictException(error.message);
+      }
+      throw new InternalServerErrorException(error);
+    }
   }
 
   findOne(id: number) {
