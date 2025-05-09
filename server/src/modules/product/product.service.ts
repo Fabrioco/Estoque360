@@ -27,7 +27,7 @@ export class ProductService {
   async findAll(): Promise<Product[] | string> {
     try {
       const products = await this.productRepository.find();
-      return products ? products : "Você não possui nenhum produto cadastrado";
+      return products.length ? products : "Você não possui nenhum produto cadastrado";
     } catch (error) {
       if (error instanceof ConflictException) {
         throw new ConflictException(error.message);
