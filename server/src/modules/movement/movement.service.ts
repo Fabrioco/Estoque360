@@ -36,8 +36,16 @@ export class MovementService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} movement`;
+  async findOne(id: number) {
+    try {
+      const movement = await this.movementRepository.findOneBy({ id });
+      return movement ? movement : "Movimento não encontrado";
+    } catch (error) {
+      if (error instanceof ConflictException) {
+        throw new ConflictException(error.message);
+      }
+      throw new InternalServerErrorException(error);
+    }
   }
 
   update(id: number, updateMovementDto: UpdateMovementDto) {
