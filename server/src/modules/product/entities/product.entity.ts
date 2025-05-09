@@ -4,31 +4,23 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn()
-  @IsNumber()
   id: number;
 
   @Column()
-  @IsString()
   name: string;
 
-  @Column()
-  @IsString()
-  @IsOptional()
+  @Column({ nullable: true })
   description?: string;
 
   @Column()
-  @IsNumber()
   currentQuantity: number;
 
   @Column()
-  @IsNumber()
   minQuantity: number;
 
-  @Column()
-  @IsNumber()
-  salePrice: number;
-
-  @Column()
-  @IsNumber()
+  @Column({ type: "decimal", precision: 10, scale: 2 })
   purchasePrice: number;
+
+  @Column({ type: "decimal", precision: 10, scale: 2 })
+  salePrice: number;
 }
