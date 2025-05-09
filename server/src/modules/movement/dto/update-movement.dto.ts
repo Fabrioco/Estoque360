@@ -4,7 +4,7 @@ import { IsNumber, IsString } from "@nestjs/class-validator";
 
 export class UpdateMovementDto extends PartialType(CreateMovementDto) {
   @IsNumber()
-  productId?: string | undefined;
+  productId?: number | undefined;
 
   @IsString()
   reason?: string | undefined;

@@ -7,7 +7,7 @@ export enum MovementType {
 
 export class CreateMovementDto {
   @IsString()
-  productId: string;
+  productId: number;
 
   @IsEnum(MovementType)
   type: MovementType;
