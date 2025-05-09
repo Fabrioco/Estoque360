@@ -23,7 +23,7 @@ export class MovementController {
 
   @Get(":id")
   findOne(@Param("id") id: string) {
-    if(isNaN(+id)) {
+    if (isNaN(+id)) {
       throw new ConflictException("Id inválido");
     }
     return this.movementService.findOne(+id);
@@ -31,6 +31,9 @@ export class MovementController {
 
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateMovementDto: UpdateMovementDto) {
+    if (isNaN(+id)) {
+      throw new ConflictException("Id inválido");
+    }
     return this.movementService.update(+id, updateMovementDto);
   }
 
