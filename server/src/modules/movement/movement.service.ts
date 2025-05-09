@@ -24,8 +24,16 @@ export class MovementService {
     }
   }
 
-  findAll() {
-    return `This action returns all movement`;
+  async findAll() {
+    try {
+      const movements = await this.movementRepository.find();
+      return movements.length ? movements : "Você não possui nenhum movimento cadastrado";
+    } catch (error) {
+      if (error instanceof ConflictException) {
+        throw new ConflictException(error.message);
+      }
+      throw new InternalServerErrorException(error);
+    }
   }
 
   findOne(id: number) {
