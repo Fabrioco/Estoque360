@@ -30,6 +30,9 @@ export class ProductController {
 
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateProductDto: UpdateProductDto) {
+    if (isNaN(+id)) {
+      throw new ConflictException("Id inválido");
+    }
     return this.productService.update(+id, updateProductDto);
   }
 

@@ -48,8 +48,20 @@ export class ProductService {
     }
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    try {
+      const product = await this.productRepository.findOneBy({ id });
+      if (!product) {
+        return "Produto não encontrado";
+      }
+      await this.productRepository.update(id, updateProductDto);
+      return "Produto atualizado com sucesso";
+    } catch (error) {
+      if (error instanceof ConflictException) {
+        throw new ConflictException(error.message);
+      }
+      throw new InternalServerErrorException(error);
+    }
   }
 
   remove(id: number) {
