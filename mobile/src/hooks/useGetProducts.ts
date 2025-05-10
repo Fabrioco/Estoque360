@@ -2,7 +2,7 @@ import axios from "axios";
 import { Product } from "../types/productType";
 
 export async function useGetProducts(): Promise<
-  Product[] | string | undefined
+  Product[] | []
 > {
   try {
     const res = await axios.get(`http://192.168.1.64:3000/product`, {
@@ -14,5 +14,6 @@ export async function useGetProducts(): Promise<
     if (axios.isAxiosError(error)) {
       console.log("Axios error:", error.code, error.message, error.config?.url);
     }
+    return []
   }
 }
