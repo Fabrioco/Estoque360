@@ -10,7 +10,7 @@ import { PlusCircle } from "phosphor-react-native";
 import { ModalProduct } from "../ui/home/modal";
 import { useGetProducts } from "../hooks/useGetProducts";
 import { Product } from "../types/productType";
-
+import { Link } from "expo-router";
 
 export default function Index() {
   const [products, setProducts] = useState<Product[] | undefined>(undefined);
@@ -38,25 +38,32 @@ export default function Index() {
         </View>
 
         <ScrollView className="w-11/12">
-          {products?.map((product) => (
-            <View
-              key={product.id}
-              className="flex-row justify-between items-center border-b border-gray-400 p-2"
-            >
-              <Text className="text-xl uppercase">{product.name}</Text>
-              <View>
-                <Text>Compra: R${product.purchasePrice}</Text>
-                <Text>Venda: R${product.salePrice}</Text>
+          {products &&
+            products.map((product) => (
+              <View
+                key={product.id}
+                className="flex-row justify-between items-center border-b border-gray-400 p-2"
+              >
+                <Text className="text-xl uppercase">{product.name}</Text>
+                <View>
+                  <Text>Compra: R${product.purchasePrice}</Text>
+                  <Text>Venda: R${product.salePrice}</Text>
+                </View>
+                <View>
+                  <Text>Estoque: {product.currentQuantity}</Text>
+                  <Text>Min: {product.minQuantity}</Text>
+                </View>
+                <TouchableOpacity>
+                  <Link
+                    href={
+                      product.id !== undefined ? `/product/${product.id}` : "/"
+                    }
+                  >
+                    Ver mais
+                  </Link>
+                </TouchableOpacity>
               </View>
-              <View>
-                <Text>Estoque: {product.currentQuantity}</Text>
-                <Text>Min: {product.minQuantity}</Text>
-              </View>
-              <TouchableOpacity>
-                <Text>Ver mais</Text>
-              </TouchableOpacity>
-            </View>
-          ))}
+            ))}
         </ScrollView>
         <ModalProduct
           isModalVisible={isModalVisible}
