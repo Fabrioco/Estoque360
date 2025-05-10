@@ -4,12 +4,15 @@ import { UpdateProductDto } from "./dto/update-product.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Product } from "./entities/product.entity";
 import { Repository } from "typeorm";
+import { Movement } from "../movement/entities/movement.entity";
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
+    @InjectRepository(Movement)
+    private readonly movementRepository: Repository<Movement>,
   ) {}
   async create(createProductDto: CreateProductDto) {
     try {
@@ -69,6 +72,14 @@ export class ProductService {
       const product = await this.productRepository.findOneBy({ id });
       if (!product) {
         return "Produto não encontrado";
+      }
+      const movements = await this.movementRepository.find({
+        where: {
+          productId: id,
+        },
+      });
+      for (const movement of movements) {
+        await this.movementRepository.delete(movement.id);
       }
       await this.productRepository.delete(id);
       return "Produto removido com sucesso";
