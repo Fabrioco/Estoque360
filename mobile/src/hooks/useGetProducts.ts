@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Product } from "../app";
+import { Product } from "../types/productType";
 
 export async function useGetProducts(): Promise<
   Product[] | string | undefined

@@ -1,4 +1,4 @@
-import { Product } from "@/src/app";
+import { Product } from "@/src/types/productType";
 import axios from "axios";
 import React from "react";
 import {
