@@ -51,7 +51,7 @@ export function ModalProduct({
     try {
       setLoading(true);
       const res = await axios.post(
-        "http://192.168.0.116:3000/product",
+        "http://192.168.1.64:3000/product",
         product
       );
       Alert.alert("Sucesso", res.data);
@@ -65,6 +65,16 @@ export function ModalProduct({
         salePrice: 0,
       });
     } catch (error) {
+      console.error(error);
+      Alert.alert("Error", "Falha ao adicionar produto");
+      if (axios.isAxiosError(error)) {
+        console.log(
+          "Axios error:",
+          error.code,
+          error.message,
+          error.config?.url
+        );
+      }
     } finally {
       setLoading(false);
     }
