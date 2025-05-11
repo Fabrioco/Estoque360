@@ -5,7 +5,7 @@ export async function useGetProducts(): Promise<
   Product[] | []
 > {
   try {
-    const res = await axios.get(`http://192.168.1.64:3000/product`, {
+    const res = await axios.get(`http://192.168.10.17:3000/product`, {
       timeout: 5000,
     });
     return res.data;
