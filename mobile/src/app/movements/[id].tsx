@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import React from "react";
 import { Alert, Text, TextInput, TouchableOpacity } from "react-native";
 import { View } from "react-native";
@@ -11,6 +11,18 @@ export default function MovementDetail() {
 
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [movement, setMovement] = React.useState<Movement>();
+  const [isEditable, setIsEditable] = React.useState<boolean>(false);
+
+  const handleChange = (field: keyof Movement, value: string | number) => {
+    setMovement((prev: Movement | undefined) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        [field]:
+          typeof prev[field] === "number" ? Number(value) : String(value),
+      };
+    });
+  };
 
   const fetchMovement = async () => {
     try {
@@ -20,6 +32,14 @@ export default function MovementDetail() {
       const name = await fetchNameProduct(res.data.productId);
       setMovement({ ...res.data, name });
     } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(
+          "Axios error:",
+          error.code,
+          error.message,
+          error.config?.url
+        );
+      }
       Alert.alert("Error", "Falha ao buscar movimento");
       console.error(error);
     } finally {
@@ -32,6 +52,29 @@ export default function MovementDetail() {
       const res = await axios.get(`http://192.168.10.17:3000/product/${id}`);
       const data = await res.data;
       return data.name;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(
+          "Axios error:",
+          error.code,
+          error.message,
+          error.config?.url
+        );
+      }
+    }
+  };
+
+  const handleEditMovement = async () => {
+    try {
+      const { name, ...movementWithoutName } = movement as Movement;
+      const res = await axios.patch(
+        `http://192.168.10.17:3000/movement/${id}`,
+        movementWithoutName
+      );
+
+      setMovement(movementWithoutName as Movement);
+      router.back();
+      Alert.alert("Sucesso", res.data);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(
@@ -66,7 +109,8 @@ export default function MovementDetail() {
         <Text>Quantidade: </Text>
         <TextInput
           value={String(movement?.quantity)}
-          editable={false}
+          onChangeText={(value) => handleChange("quantity", value)}
+          editable={isEditable}
           keyboardType="numeric"
         />
       </View>
@@ -75,7 +119,8 @@ export default function MovementDetail() {
         <Text>Motivo: {movement?.reason}</Text>
         <TextInput
           value={String(movement?.reason)}
-          editable={false}
+          onChangeText={(value) => handleChange("reason", value)}
+          editable={isEditable}
           keyboardType="default"
           multiline
           numberOfLines={4}
@@ -85,10 +130,23 @@ export default function MovementDetail() {
       </View>
 
       <View>
+        <Text>
+          Data: {movement?.date?.split("T")[0].split("-").reverse().join("/")}
+        </Text>
+      </View>
+
+      <View>
+        <Text>
+          Hora: {movement?.date?.split("T")[1].split(".")[0].slice(0, 5)}
+        </Text>
+      </View>
+
+      <View>
         <Text>Tipo: </Text>
         <RNPickerSelect
           value={movement?.type}
-          onValueChange={(value) => console.log(value)}
+          onValueChange={(value) => handleChange("type", value)}
+          disabled={!isEditable}
           placeholder={{
             label: "Selecione um tipo",
             value: null,
@@ -100,8 +158,10 @@ export default function MovementDetail() {
         />
       </View>
 
-      <TouchableOpacity>
-        <Text>Editar</Text>
+      <TouchableOpacity
+        onPress={isEditable ? handleEditMovement : () => setIsEditable(true)}
+      >
+        <Text>{isEditable ? "Salvar" : "Editar"}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity>
