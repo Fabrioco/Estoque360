@@ -14,7 +14,6 @@ export default function ModalMovements({
   isModalVisible,
   setModalVisible,
 }: ModalMovementsProps) {
-  const [movements, setMovements] = React.useState<Movement[]>([]);
   const [products, setProducts] = React.useState<Product[]>([]);
   const [productId, setProductId] = React.useState<number>(0);
   const [typeMovement, setTypeMovement] = React.useState<MovementType | null>(
