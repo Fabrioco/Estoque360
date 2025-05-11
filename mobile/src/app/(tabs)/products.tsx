@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { PlusCircle } from "phosphor-react-native";
 import { Link } from "expo-router";
-import { ModalProduct } from "@/src/ui/home/modal";
+import { ModalProduct } from "@/src/ui/products/modal";
 import { Product } from "@/src/types/productType";
 import { useGetProducts } from "@/src/hooks/useGetProducts";
 
