@@ -8,10 +8,10 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { PlusCircle } from "phosphor-react-native";
-import { ModalProduct } from "../ui/home/modal";
-import { useGetProducts } from "../hooks/useGetProducts";
-import { Product } from "../types/productType";
 import { Link } from "expo-router";
+import { ModalProduct } from "@/src/ui/home/modal";
+import { Product } from "@/src/types/productType";
+import { useGetProducts } from "@/src/hooks/useGetProducts";
 
 export default function Index() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -81,13 +81,7 @@ export default function Index() {
                   <Text>Min: {product.minQuantity}</Text>
                 </View>
                 <TouchableOpacity>
-                  <Link
-                    href={
-                      product.id !== undefined ? `/product/${product.id}` : "/"
-                    }
-                  >
-                    Ver mais
-                  </Link>
+                  <Link href={`/product/${product.id}`}>Ver mais</Link>
                 </TouchableOpacity>
               </View>
             ))
