@@ -5,20 +5,45 @@ import {
   TouchableOpacity,
   View,
   SafeAreaView,
+  ActivityIndicator,
 } from "react-native";
 import { PlusCircle } from "phosphor-react-native";
-import { ModalProduct } from "../ui/home/modal";
-import { useGetProducts } from "../hooks/useGetProducts";
-import { Product } from "../types/productType";
 import { Link } from "expo-router";
+import { ModalProduct } from "@/src/ui/home/modal";
+import { Product } from "@/src/types/productType";
+import { useGetProducts } from "@/src/hooks/useGetProducts";
 
 export default function Index() {
-  const [products, setProducts] = useState<Product[] | undefined>(undefined);
+  const [products, setProducts] = useState<Product[]>([]);
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    useGetProducts().then((res) => setProducts(res as Product[]));
-  }, []);
+    const loadProducts = async () => {
+      try {
+        setIsLoading(true);
+        const res = await useGetProducts();
+        setProducts(res as Product[] | []);
+      } catch (error) {
+        console.error("Erro ao carregar produtos:", error);
+        setProducts([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadProducts();
+  }, [isModalVisible]);
+
+  if (isLoading) {
+    return (
+      <SafeAreaView
+        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+      >
+        <ActivityIndicator size="large" />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -38,7 +63,9 @@ export default function Index() {
         </View>
 
         <ScrollView className="w-11/12">
-          {products &&
+          {typeof products === "string" ? (
+            <Text className="text-center py-10">Nenhum produto cadastrado</Text>
+          ) : (
             products.map((product) => (
               <View
                 key={product.id}
@@ -54,16 +81,11 @@ export default function Index() {
                   <Text>Min: {product.minQuantity}</Text>
                 </View>
                 <TouchableOpacity>
-                  <Link
-                    href={
-                      product.id !== undefined ? `/product/${product.id}` : "/"
-                    }
-                  >
-                    Ver mais
-                  </Link>
+                  <Link href={`/product/${product.id}`}>Ver mais</Link>
                 </TouchableOpacity>
               </View>
-            ))}
+            ))
+          )}
         </ScrollView>
         <ModalProduct
           isModalVisible={isModalVisible}
