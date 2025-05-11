@@ -87,6 +87,25 @@ export default function MovementDetail() {
     }
   };
 
+  const handleDeleteMovement = async () => {
+    try {
+      const res = await axios.delete(
+        `http://192.168.10.17:3000/movement/${id}`
+      );
+      Alert.alert("Sucesso", res.data);
+      router.back();
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(
+          "Axios error:",
+          error.code,
+          error.message,
+          error.config?.url
+        );
+      }
+    }
+  };
+
   React.useEffect(() => {
     fetchMovement();
   }, [id]);
@@ -164,7 +183,7 @@ export default function MovementDetail() {
         <Text>{isEditable ? "Salvar" : "Editar"}</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handleDeleteMovement}>
         <Text>Excluir</Text>
       </TouchableOpacity>
     </View>
