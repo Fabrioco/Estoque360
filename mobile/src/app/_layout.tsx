@@ -1,11 +1,13 @@
 import { Slot } from "expo-router";
 import "@/src/styles/global.css";
 import { Text, View } from "react-native";
+import { Notification } from "../components/notification";
 
 export default function RootLayout() {
   return (
     <View className="flex-1">
       <Text>Meu App</Text>
+      <Notification />
 
       <Slot screenOptions={{ headerShown: false }} />
 
