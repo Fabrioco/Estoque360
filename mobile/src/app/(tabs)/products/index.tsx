@@ -18,7 +18,7 @@ export default function ProductList() {
 
   React.useEffect(() => {
     refetch();
-  },[isModalVisible])
+  }, [isModalVisible]);
 
   if (isLoading) {
     return (
@@ -49,27 +49,26 @@ export default function ProductList() {
         </View>
 
         <ScrollView>
-          {products.length === 0 ? (
-            <Text>Nenhum produto cadastrado</Text>
+          {typeof products === "string" ? (
+            <Text>{products}</Text>
           ) : (
-            products.map((product) => (
-              <View key={product.id}>
-                <Text>{product.name}</Text>
-                <View>
-                  <Text>Compra: R${product.purchasePrice}</Text>
-                  <Text>Venda: R${product.salePrice}</Text>
+            <View>
+              {products.map((product) => (
+                <View key={product.id}>
+                  <Text>{product.name}</Text>
+                  <Text>{product.description}</Text>
+                  <Text>{product.currentQuantity}</Text>
+                  <Text>{product.minQuantity}</Text>
+                  <Text>{product.purchasePrice}</Text>
+                  <Text>{product.salePrice}</Text>
+                  <TouchableOpacity
+                    onPress={() => router.push(`/product/${product.id}`)}
+                  >
+                    <Text>Ver mais</Text>
+                  </TouchableOpacity>
                 </View>
-                <View>
-                  <Text>Estoque: {product.currentQuantity}</Text>
-                  <Text>Min: {product.minQuantity}</Text>
-                </View>
-                <TouchableOpacity
-                  onPress={() => router.push(`/product/${product.id}`)}
-                >
-                  <Text>Ver mais</Text>
-                </TouchableOpacity>
-              </View>
-            ))
+              ))}
+            </View>
           )}
         </ScrollView>
 
