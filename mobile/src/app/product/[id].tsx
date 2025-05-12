@@ -1,3 +1,4 @@
+import { ProductField } from "@/src/components/productField";
 import { useGetProduct } from "@/src/hooks/useGetProduct";
 import { Product } from "@/src/types/productType";
 import axios from "axios";
@@ -15,46 +16,44 @@ import {
 
 export default function ScreenProduct() {
   const { id } = useLocalSearchParams();
-  const [product, setProduct] = React.useState<Product | null>(null);
-  const [editProduct, setEditProduct] = React.useState<Partial<Product>>({});
+  const [product, setProduct] = React.useState<Product>({
+    name: "",
+    description: "",
+    currentQuantity: 0,
+    minQuantity: 0,
+    purchasePrice: 0,
+    salePrice: 0,
+  });
   const [editable, setEditable] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(true);
+
+  const { data: productData, isLoading } = useGetProduct(Number(id));
 
   React.useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        setIsLoading(true);
-        const res = await useGetProduct(Number(id));
-        setProduct(res as Product);
-        setEditProduct(res as Product);
-      } catch (error) {
-        Alert.alert("Error", "Falha ao buscar produto");
-        console.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchProduct();
-  }, [id]);
+    if (productData) {
+      setProduct(productData);
+    }
+  }, [productData, id ]);
 
   const handleChange = (field: keyof Product, value: string | number) => {
     if (editable) {
-      setEditProduct((prev) => ({
-        ...prev,
-        [field]:
-          typeof product?.[field] === "number" ? Number(value) : String(value),
-      }));
+      setProduct((prev: Product) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          [field]:
+            typeof prev[field] === "number" ? Number(value) : String(value),
+        };
+      });
     }
   };
 
   const handleEditProduct = async () => {
     try {
       const res = await axios.patch(
-        `http://192.168.1.64:3000/product/${id}`,
-        editProduct
+        `http://192.168.10.17:3000/product/${id}`,
+        product
       );
-      setProduct(editProduct as Product);
+      setProduct(product as Product);
       Alert.alert("Sucesso", res.data);
       setEditable(false);
     } catch (error) {
@@ -73,7 +72,7 @@ export default function ScreenProduct() {
 
   const handleDeleteProduct = async () => {
     try {
-      const res = await axios.delete(`http://192.168.1.64:3000/product/${id}`);
+      const res = await axios.delete(`http://192.168.10.17:3000/product/${id}`);
       Alert.alert("Sucesso", res.data);
       router.back();
     } catch (error) {
@@ -112,71 +111,53 @@ export default function ScreenProduct() {
   return (
     <SafeAreaView>
       <View>
-        <View>
-          <Text>Nome do produto</Text>
-          <TextInput
-            value={editable ? editProduct.name : product.name}
-            onChangeText={(text) => handleChange("name", text)}
-            editable={editable}
-            keyboardType="default"
-          />
-        </View>
+        <ProductField
+          label="Nome do produto"
+          value={product.name}
+          onChange={(text) => handleChange("name", text)}
+          editable={editable}
+          keyboardType="default"
+        />
 
-        <View>
-          <Text>Descrição do produto</Text>
-          <TextInput
-            value={editable ? editProduct.description : product.description}
-            onChangeText={(text) => handleChange("description", text)}
-            editable={editable}
-            keyboardType="default"
-          />
-        </View>
+        <ProductField
+          label="Descrição do produto"
+          value={product.description || ""}
+          onChange={(text) => handleChange("description", text)}
+          editable={editable}
+          keyboardType="default"
+        />
 
-        <View>
-          <Text>Quantidade atual</Text>
-          <TextInput
-            value={String(
-              editable ? editProduct.currentQuantity : product.currentQuantity
-            )}
-            onChangeText={(text) => handleChange("currentQuantity", text)}
-            editable={editable}
-            keyboardType="numeric"
-          />
-        </View>
+        <ProductField
+          label="Quantidade atual"
+          value={product.currentQuantity}
+          onChange={(number) => handleChange("currentQuantity", number)}
+          editable={editable}
+          keyboardType="numeric"
+        />
 
-        <View>
-          <Text>Quantidade mínima</Text>
-          <TextInput
-            value={String(
-              editable ? editProduct.minQuantity : product.minQuantity
-            )}
-            onChangeText={(text) => handleChange("minQuantity", text)}
-            editable={editable}
-            keyboardType="numeric"
-          />
-        </View>
+        <ProductField
+          label="Quantidade minima"
+          value={product.minQuantity}
+          onChange={(number) => handleChange("minQuantity", number)}
+          editable={editable}
+          keyboardType="numeric"
+        />
 
-        <View>
-          <Text>Preço de compra</Text>
-          <TextInput
-            value={String(
-              editable ? editProduct.purchasePrice : product.purchasePrice
-            )}
-            onChangeText={(text) => handleChange("purchasePrice", text)}
-            editable={editable}
-            keyboardType="numeric"
-          />
-        </View>
+        <ProductField
+          label="Preço de compra"
+          value={product.purchasePrice}
+          onChange={(number) => handleChange("purchasePrice", number)}
+          editable={editable}
+          keyboardType="numeric"
+        />
 
-        <View>
-          <Text>Preço de venda</Text>
-          <TextInput
-            value={String(editable ? editProduct.salePrice : product.salePrice)}
-            onChangeText={(text) => handleChange("salePrice", text)}
-            editable={editable}
-            keyboardType="numeric"
-          />
-        </View>
+        <ProductField
+          label="Preço de venda"
+          value={product.salePrice}
+          onChange={(number) => handleChange("salePrice", number)}
+          editable={editable}
+          keyboardType="numeric"
+        />
 
         <View>
           <TouchableOpacity
