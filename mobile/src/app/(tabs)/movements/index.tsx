@@ -89,7 +89,9 @@ export default function Movements() {
         </TouchableOpacity>
       </View>
 
-      {movements ? (
+      {typeof movements === "string" ? (
+        <Text>{movements}</Text>
+      ) : (
         <ScrollView>
           {movements.map((movement) => (
             <View key={movement.id}>
@@ -126,15 +128,13 @@ export default function Movements() {
                 <Text>{movement.reason ? movement.reason : "(Opcional)"}</Text>
               </View>
               <TouchableOpacity
-                onPress={() => router.push(`/movements/${movement.id}`)}
+                onPress={() => router.push(`/movement/${movement.id}`)}
               >
                 <Text>Ver mais</Text>
               </TouchableOpacity>
             </View>
           ))}
         </ScrollView>
-      ) : (
-        <Text>Carregando...</Text>
       )}
 
       <ModalMovements
