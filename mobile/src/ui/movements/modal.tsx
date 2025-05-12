@@ -1,4 +1,4 @@
-import { Movement, MovementType } from "@/src/app/(tabs)/movements";
+import { Movement } from "@/src/app/(tabs)/movements";
 import { useGetProducts } from "@/src/hooks/useGetProducts";
 import { Product } from "@/src/types/productType";
 import axios from "axios";
@@ -22,6 +22,12 @@ export default function ModalMovements({
   isModalVisible,
   setModalVisible,
 }: ModalMovementsProps) {
+  const {
+    data: productsData = [],
+    isLoading,
+    error,
+    refetch,
+  } = useGetProducts();
   const [products, setProducts] = React.useState<Product[]>([]);
   const [movements, setMovements] = React.useState<Movement>({
     productId: 0,
@@ -60,19 +66,27 @@ export default function ModalMovements({
     }
   };
 
-  React.useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await useGetProducts();
-        setProducts(res as Product[] | []);
-      } catch (error) {
-        console.error("Erro ao carregar produtos:", error);
-        setProducts([]);
-      }
-    };
+  console.log(productsData);
 
-    fetchProducts();
-  }, []);
+  React.useEffect(() => {
+    refetch();
+  }, [isModalVisible]);
+
+  if (isLoading) {
+    return (
+      <Modal visible={isModalVisible} animationType="slide">
+        <Text>Carregando...</Text>
+      </Modal>
+    );
+  }
+
+  if (error) {
+    return (
+      <Modal visible={isModalVisible} animationType="slide">
+        <Text>Erro ao carregar produtos</Text>
+      </Modal>
+    );
+  }
 
   return (
     <Modal visible={isModalVisible} animationType="slide">
@@ -82,7 +96,7 @@ export default function ModalMovements({
       <RNPickerSelect
         placeholder={{ label: "Selecione um produto", value: null }}
         onValueChange={(e) => handleChange("productId", e)}
-        items={products.map((product) => ({
+        items={productsData.map((product) => ({
           label: product.name,
           value: product.id,
         }))}
