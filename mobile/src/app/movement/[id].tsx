@@ -1,7 +1,13 @@
 import axios from "axios";
 import { router, useLocalSearchParams } from "expo-router";
 import React from "react";
-import { Alert, Text, TextInput, TouchableOpacity } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Text,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import { View } from "react-native";
 import { Movement } from "../(tabs)/movements";
 import RNPickerSelect from "react-native-picker-select";
@@ -112,8 +118,8 @@ export default function MovementDetail() {
 
   if (isLoading) {
     return (
-      <View>
-        <Text>Carregando...</Text>
+      <View className="flex-1 items-center justify-center bg-slate-200">
+        <ActivityIndicator size="large" color="#000" />
       </View>
     );
   }
