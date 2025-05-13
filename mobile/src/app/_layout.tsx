@@ -5,7 +5,7 @@ import { Notification } from "../components/notification";
 
 export default function RootLayout() {
   return (
-    <View className="flex-1">
+    <View className="flex-1 bg-slate-200">
       <Text>Meu App</Text>
       <Notification />
 
