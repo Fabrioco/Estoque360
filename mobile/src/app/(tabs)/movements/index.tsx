@@ -95,62 +95,70 @@ export default function Movements() {
         </View>
 
         {typeof movements === "string" ? (
-          <Text className="text-2xl">{movements}</Text>
+          <View className="flex-col items-center justify-center mt-10">
+            <Text className="text-2xl w-full text-center">Você não possui movimentações</Text>
+          </View>
         ) : (
           <ScrollView className="w-full h-full">
-            {movements.map((movement) => (
-              <View
-                key={movement.id}
-                className="flex-row gap-2 items-center justify-between bg-white rounded-full px-4 py-2 shadow-md "
-              >
-                <View className="flex-col w-2/12">
-                  <Text className="font-bold text-lg">Produto</Text>
-                  <Text>{movement.name}</Text>
-                </View>
-
-                <View className="flex-col">
-                  <View className="flex-row gap-1">
-                    <Text className="font-bold">Tipo:</Text>
-                    <Text>
-                      {movement.type === "ENTRADA" ? "Entrada" : "Saida"}
-                    </Text>
-                  </View>
-
-                  <View className="flex-row gap-1">
-                    <Text className="font-bold">Quantidade:</Text>
-                    <Text>{movement.quantity}</Text>
-                  </View>
-                </View>
-
-                <View className="flex-col">
-                  <View className="flex-row gap-1">
-                    <Text className="font-bold">Data:</Text>
-                    <Text>
-                      {movement?.date
-                        ?.split("T")[0]
-                        .split("-")
-                        .reverse()
-                        .join("/") || ""}
-                    </Text>
-                  </View>
-
-                  <View className="flex-row gap-1">
-                    <Text className="font-bold">Hora:</Text>
-                    <Text>
-                      {movement.date?.split("T")[1].split(".")[0].slice(0, 5) ||
-                        ""}
-                    </Text>
-                  </View>
-                </View>
-
-                <TouchableOpacity
-                  onPress={() => router.push(`/movement/${movement.id}`)}
-                  className="flex-row items-center gap-2 bg-black rounded-full px-4 py-2 shadow-md"
+            <View className="flex-col gap-4 mt-4">
+              {movements.map((movement) => (
+                <View
+                  key={movement.id}
+                  className="flex-row gap-2 items-center justify-between bg-white rounded-full px-4 py-2 shadow-md "
                 >
-                  <Text className="text-xl font-bold text-white">Ver mais</Text>
-                </TouchableOpacity>
-              </View>
-            ))}
+                  <View className="flex-col w-2/12">
+                    <Text className="font-bold text-lg">Produto</Text>
+                    <Text>{movement.name}</Text>
+                  </View>
+
+                  <View className="flex-col">
+                    <View className="flex-row gap-1">
+                      <Text className="font-bold">Tipo:</Text>
+                      <Text>
+                        {movement.type === "ENTRADA" ? "Entrada" : "Saida"}
+                      </Text>
+                    </View>
+
+                    <View className="flex-row gap-1">
+                      <Text className="font-bold">Quantidade:</Text>
+                      <Text>{movement.quantity}</Text>
+                    </View>
+                  </View>
+
+                  <View className="flex-col">
+                    <View className="flex-row gap-1">
+                      <Text className="font-bold">Data:</Text>
+                      <Text>
+                        {movement?.date
+                          ?.split("T")[0]
+                          .split("-")
+                          .reverse()
+                          .join("/") || ""}
+                      </Text>
+                    </View>
+
+                    <View className="flex-row gap-1">
+                      <Text className="font-bold">Hora:</Text>
+                      <Text>
+                        {movement.date
+                          ?.split("T")[1]
+                          .split(".")[0]
+                          .slice(0, 5) || ""}
+                      </Text>
+                    </View>
+                  </View>
+
+                  <TouchableOpacity
+                    onPress={() => router.push(`/movement/${movement.id}`)}
+                    className="flex-row items-center gap-2 bg-black rounded-full px-4 py-2 shadow-md"
+                  >
+                    <Text className="text-xl font-bold text-white">
+                      Ver mais
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </View>
           </ScrollView>
         )}
 
