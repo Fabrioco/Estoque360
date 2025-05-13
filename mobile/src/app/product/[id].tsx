@@ -6,6 +6,7 @@ import { router } from "expo-router";
 import { useLocalSearchParams } from "expo-router/build/hooks";
 import React from "react";
 import {
+  ActivityIndicator,
   Alert,
   SafeAreaView,
   Text,
@@ -16,23 +17,23 @@ import {
 
 export default function ScreenProduct() {
   const { id } = useLocalSearchParams();
+  const { data: productData, isLoading } = useGetProduct(Number(id));
+
   const [product, setProduct] = React.useState<Product>({
-    name: "",
-    description: "",
-    currentQuantity: 0,
-    minQuantity: 0,
-    purchasePrice: 0,
-    salePrice: 0,
+    name: productData?.name || "",
+    description: productData?.description || "",
+    currentQuantity: productData?.currentQuantity || 0,
+    minQuantity: productData?.minQuantity || 0,
+    purchasePrice: productData?.purchasePrice || 0,
+    salePrice: productData?.salePrice || 0,
   });
   const [editable, setEditable] = React.useState(false);
-
-  const { data: productData, isLoading } = useGetProduct(Number(id));
 
   React.useEffect(() => {
     if (productData) {
       setProduct(productData);
     }
-  }, [productData, id ]);
+  }, [productData, id]);
 
   const handleChange = (field: keyof Product, value: string | number) => {
     if (editable) {
@@ -92,17 +93,22 @@ export default function ScreenProduct() {
   if (isLoading) {
     return (
       <SafeAreaView>
-        <Text>Carregando...</Text>
+        <ActivityIndicator size="large" color="#000" />
       </SafeAreaView>
     );
   }
 
   if (!product) {
-    router.back();
     return (
-      <SafeAreaView>
-        <TouchableOpacity onPress={() => router.back()}>
-          Voltar
+      <SafeAreaView className="flex-1 items-center justify-center bg-slate-200">
+        <Text className="text-2xl uppercase w-full text-center">
+          Produto não encontrado
+        </Text>
+        <TouchableOpacity
+          onPress={() => router.back()}
+          className="mt-4 bg-white rounded-full px-4 py-2 "
+        >
+          <Text className="text-xl font-bold text-black">Voltar</Text>
         </TouchableOpacity>
       </SafeAreaView>
     );
