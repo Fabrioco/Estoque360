@@ -1,7 +1,14 @@
 import axios from "axios";
 import { router, useLocalSearchParams } from "expo-router";
 import React from "react";
-import { Alert, Text, TextInput, TouchableOpacity } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import { View } from "react-native";
 import { Movement } from "../(tabs)/movements";
 import RNPickerSelect from "react-native-picker-select";
@@ -112,80 +119,116 @@ export default function MovementDetail() {
 
   if (isLoading) {
     return (
-      <View>
-        <Text>Carregando...</Text>
+      <View className="flex-1 items-center justify-center bg-slate-200">
+        <ActivityIndicator size="large" color="#000" />
       </View>
     );
   }
 
   return (
-    <View>
-      <View>
-        <Text>Produto: {movement?.name}</Text>
+    <ScrollView>
+      <View className="flex-1 items-center p-4">
+        <View className="w-full flex-row justify-end">
+          <TouchableOpacity
+            onPress={() => router.back()}
+            className="my-4 bg-black px-4 py-2 rounded-full"
+          >
+            <Text className="text-lg text-white font-bold">Voltar</Text>
+          </TouchableOpacity>
+        </View>
+        <View className="my-4 w-full">
+          <Text className="text-2xl font-bold text-center">
+            Detalhes do movimento
+          </Text>
+        </View>
+        <View className="w-11/12 items-center justify-center bg-slate-200">
+          <View className="my-4 w-full flex-row items-center gap-2">
+            <Text className="text-2xl font-bold">Produto:</Text>
+            <Text className="text-2xl">{movement?.name}</Text>
+          </View>
+
+          <View className="my-4 w-full flex-col  gap-2">
+            <Text className="text-2xl font-bold">Quantidade:</Text>
+            <TextInput
+              value={String(movement?.quantity)}
+              onChangeText={(value) => handleChange("quantity", value)}
+              editable={isEditable}
+              keyboardType="numeric"
+              className="border border-slate-50 bg-slate-50 rounded-full p-4 text-lg"
+            />
+          </View>
+
+          <View className="my-4 w-full flex-col gap-2">
+            <Text className="text-2xl font-bold">
+              Motivo: {movement?.reason}
+            </Text>
+            <TextInput
+              value={String(movement?.reason)}
+              onChangeText={(value) => handleChange("reason", value)}
+              editable={isEditable}
+              keyboardType="default"
+              multiline
+              numberOfLines={4}
+              textAlignVertical="top"
+              placeholder="(Opcional)"
+              className="border border-slate-50 bg-slate-50 rounded-full p-4 text-lg"
+            />
+          </View>
+
+          <View className="my-4 w-full flex-row items-center gap-2">
+            <Text className="text-2xl font-bold">Data:</Text>
+            <Text className="text-2xl">
+              {movement?.date?.split("T")[0].split("-").reverse().join("/")}
+            </Text>
+          </View>
+
+          <View className="my-4 w-full flex-row items-center gap-2">
+            <Text className="text-2xl font-bold">Hora:</Text>
+            <Text className="text-2xl">
+              {movement?.date?.split("T")[1].split(".")[0].slice(0, 5)}
+            </Text>
+          </View>
+
+          <View className="my-4 w-full flex-col gap-2">
+            <Text className="text-2xl font-bold">Tipo:</Text>
+            <View className="w-full bg-slate-50 rounded-full">
+              <RNPickerSelect
+                value={movement?.type}
+                onValueChange={(value) => handleChange("type", value)}
+                disabled={!isEditable}
+                placeholder={{
+                  label: "Selecione um tipo",
+                  value: null,
+                }}
+                items={[
+                  { label: "Entrada", value: "ENTRADA" },
+                  { label: "Saída", value: "SAIDA" },
+                ]}
+              />
+            </View>
+          </View>
+
+          <View className="my-4 w-full flex-row justify-between">
+            <TouchableOpacity
+              className="my-4 bg-white px-4 py-2 rounded-md"
+              onPress={
+                isEditable ? handleEditMovement : () => setIsEditable(true)
+              }
+            >
+              <Text className="text-lg text-black font-bold">
+                {isEditable ? "Salvar" : "Editar"}
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={handleDeleteMovement}
+              className="my-4 bg-white px-4 py-2 rounded-md"
+            >
+              <Text className="text-lg text-black font-bold">Excluir</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
-
-      <View>
-        <Text>Quantidade: </Text>
-        <TextInput
-          value={String(movement?.quantity)}
-          onChangeText={(value) => handleChange("quantity", value)}
-          editable={isEditable}
-          keyboardType="numeric"
-        />
-      </View>
-
-      <View>
-        <Text>Motivo: {movement?.reason}</Text>
-        <TextInput
-          value={String(movement?.reason)}
-          onChangeText={(value) => handleChange("reason", value)}
-          editable={isEditable}
-          keyboardType="default"
-          multiline
-          numberOfLines={4}
-          textAlignVertical="top"
-          placeholder="(Opcional)"
-        />
-      </View>
-
-      <View>
-        <Text>
-          Data: {movement?.date?.split("T")[0].split("-").reverse().join("/")}
-        </Text>
-      </View>
-
-      <View>
-        <Text>
-          Hora: {movement?.date?.split("T")[1].split(".")[0].slice(0, 5)}
-        </Text>
-      </View>
-
-      <View>
-        <Text>Tipo: </Text>
-        <RNPickerSelect
-          value={movement?.type}
-          onValueChange={(value) => handleChange("type", value)}
-          disabled={!isEditable}
-          placeholder={{
-            label: "Selecione um tipo",
-            value: null,
-          }}
-          items={[
-            { label: "Entrada", value: "ENTRADA" },
-            { label: "Saída", value: "SAIDA" },
-          ]}
-        />
-      </View>
-
-      <TouchableOpacity
-        onPress={isEditable ? handleEditMovement : () => setIsEditable(true)}
-      >
-        <Text>{isEditable ? "Salvar" : "Editar"}</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={handleDeleteMovement}>
-        <Text>Excluir</Text>
-      </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 }
