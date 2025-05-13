@@ -22,49 +22,75 @@ export default function ProductList() {
 
   if (isLoading) {
     return (
-      <SafeAreaView>
-        <ActivityIndicator size="large" />
+      <SafeAreaView className="flex-1 items-center justify-center bg-slate-200">
+        <ActivityIndicator size="large" color="#000" />
       </SafeAreaView>
     );
   }
 
   if (error) {
     return (
-      <SafeAreaView>
-        <Text>Erro ao carregar produtos</Text>
+      <SafeAreaView className="flex-1 items-center justify-center bg-slate-200">
+        <Text className="text-2xl uppercase w-full text-center">
+          Erro ao carregar produtos
+        </Text>
+        <TouchableOpacity
+          onPress={() => refetch()}
+          className="mt-4 bg-white rounded-full px-4 py-2 "
+        >
+          <Text className="text-xl font-bold text-black">Recarregar</Text>
+        </TouchableOpacity>
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView>
-      <View>
-        <Text>Produtos</Text>
+    <SafeAreaView className="flex-1 items-center justify-center bg-slate-200">
+      <View className="w-full h-full flex-col gap-4 justify-between">
+        <Text className="text-2xl uppercase w-full text-center mt-8 font-bold">
+          Produtos em estoque
+        </Text>
 
-        <View>
-          <TouchableOpacity onPress={() => setModalVisible(true)}>
-            <Text>Adicionar</Text>
-            <PlusCircle size={30} weight="bold" />
+        <View className="flex-row items-center justify-between w-full px-4">
+          <TouchableOpacity
+            onPress={() => setModalVisible(true)}
+            className="flex-row items-center gap-2 bg-white rounded-full px-4 py-2 border border-white border-solid shadow-sm active:shadow-lg active:scale-95"
+          >
+            <Text className="text-xl font-bold text-black">Adicionar</Text>
+            <PlusCircle size={30} weight="bold" color="#000" />
           </TouchableOpacity>
         </View>
 
-        <ScrollView>
+        <ScrollView className="flex-col gap-4 h-auto">
           {typeof products === "string" ? (
-            <Text>{products}</Text>
+            <Text className="text-2xl uppercase w-full text-center mt-8 font-bold">
+              {products}
+            </Text>
           ) : (
-            <View>
+            <View className="gap-4 w-11/12 mx-auto ">
               {products.map((product) => (
-                <View key={product.id}>
-                  <Text>{product.name}</Text>
-                  <Text>{product.description}</Text>
-                  <Text>{product.currentQuantity}</Text>
-                  <Text>{product.minQuantity}</Text>
-                  <Text>{product.purchasePrice}</Text>
-                  <Text>{product.salePrice}</Text>
+                <View
+                  key={product.id}
+                  className="flex-row items-center justify-between w-full bg-white rounded-full px-4 py-2 border border-white border-solid shadow-lg"
+                >
+                  <Text className="font-bold text-xl w-1/6">
+                    {product.name}
+                  </Text>
+                  <View className="w-1/6">
+                    <Text>Atual: {product.currentQuantity}</Text>
+                    <Text>Min.: {product.minQuantity}</Text>
+                  </View>
+                  <View className="w-fit">
+                    <Text>Compra: R$ {product.purchasePrice}</Text>
+                    <Text>Venda: R$ {product.salePrice}</Text>
+                  </View>
                   <TouchableOpacity
                     onPress={() => router.push(`/product/${product.id}`)}
+                    className="bg-black rounded-full px-4 py-2 border border-black border-solid shadow-sm active:shadow-lg active:scale-95"
                   >
-                    <Text>Ver mais</Text>
+                    <Text className="text-xl font-bold text-white">
+                      Ver mais
+                    </Text>
                   </TouchableOpacity>
                 </View>
               ))}
