@@ -66,7 +66,6 @@ export default function ModalMovements({
     }
   };
 
-  console.log(productsData);
 
   React.useEffect(() => {
     refetch();
