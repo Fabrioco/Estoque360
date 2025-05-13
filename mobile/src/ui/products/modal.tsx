@@ -4,6 +4,7 @@ import React from "react";
 import {
   Alert,
   Modal,
+  ScrollView,
   Text,
   TextInput,
   TouchableOpacity,
@@ -84,13 +85,13 @@ export function ModalProduct({
     <Modal
       style={{ margin: 0 }}
       visible={isModalVisible}
-      className="bg-white rounded-t-3xl m-0 p-0"
+      className="bg-white"
       onRequestClose={() => setModalVisible(false)}
       animationType="slide"
     >
-      <View className="flex-col p-4 relative">
+      <ScrollView className="flex-col p-4 relative">
         <View className="flex-row items-center justify-between">
-          <Text className="text-lg font-bold">Adicionar Produto</Text>
+          <Text className="text-2xl font-bold">Adicionar Produto</Text>
           <TouchableOpacity
             onPress={() => setModalVisible(false)}
             className="bg-red-500 px-4 py-2 rounded w-fit"
@@ -100,8 +101,8 @@ export function ModalProduct({
         </View>
 
         <View className="flex-col gap-4 mt-5">
-          <View>
-            <Text>Nome do produto</Text>
+          <View className="flex-col gap-2">
+            <Text className="text-lg">Nome do produto</Text>
             <TextInput
               placeholder="Garrafa de água"
               keyboardType="default"
@@ -109,11 +110,12 @@ export function ModalProduct({
               onChange={(e) =>
                 setProduct({ ...product, name: e.nativeEvent.text })
               }
+              className="border border-slate-200 bg-slate-50 rounded-full py-2 px-4 text-lg"
             />
           </View>
 
-          <View>
-            <Text>Descrição do produto</Text>
+          <View className="flex-col gap-2">
+            <Text className="text-lg">Descrição do produto</Text>
             <TextInput
               placeholder="(Opcional)"
               keyboardType="default"
@@ -121,54 +123,64 @@ export function ModalProduct({
               onChange={(e) =>
                 setProduct({ ...product, description: e.nativeEvent.text })
               }
+              className="border border-slate-200 bg-slate-50 rounded-full py-2 px-4 text-lg"
             />
           </View>
 
-          <View>
-            <Text>Preço de compra</Text>
+          <View className="flex-col gap-2">
+            <Text className="text-lg">Preço de compra</Text>
             <TextInput
               placeholder="10"
               keyboardType="numeric"
               onChange={(e) =>
                 handleChange("purchasePrice", e.nativeEvent.text)
               }
+              className="border border-slate-200 bg-slate-50 rounded-full py-2 px-4 text-lg"
             />
           </View>
 
-          <View>
-            <Text>Preço de venda</Text>
+          <View className="flex-col gap-2">
+            <Text className="text-lg">Preço de venda</Text>
             <TextInput
               placeholder="15"
               keyboardType="numeric"
               onChange={(e) => handleChange("salePrice", e.nativeEvent.text)}
+              className="border border-slate-200 bg-slate-50 rounded-full py-2 px-4 text-lg"
             />
           </View>
 
-          <View>
-            <Text>Quantidade em estoque</Text>
+          <View className="flex-col gap-2">
+            <Text className="text-lg">Quantidade em estoque</Text>
             <TextInput
               placeholder="10"
               keyboardType="numeric"
               onChange={(e) =>
                 handleChange("currentQuantity", e.nativeEvent.text)
               }
+              className="border border-slate-200 bg-slate-50 rounded-full py-2 px-4 text-lg"
             />
           </View>
 
-          <View>
-            <Text>Quantidade mínima</Text>
+          <View className="flex-col gap-2">
+            <Text className="text-lg">Quantidade mínima</Text>
             <TextInput
               placeholder="5"
               keyboardType="numeric"
               onChange={(e) => handleChange("minQuantity", e.nativeEvent.text)}
+              className="border border-slate-200 bg-slate-50 rounded-full py-2 px-4 text-lg"
             />
           </View>
 
-          <TouchableOpacity onPress={handleAddProduct}>
-            <Text>Salvar</Text>
-          </TouchableOpacity>
+          <View className="flex-row items-center justify-end mb-10">
+            <TouchableOpacity
+              onPress={handleAddProduct}
+              className="mt-4 w-fit bg-black py-4 px-8 rounded-full"
+            >
+              <Text className="text-white text-lg font-bold">Salvar</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </Modal>
   );
 }
