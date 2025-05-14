@@ -55,7 +55,7 @@ export default function Movements() {
       }
     };
     fetchMovements();
-  }, [isModalOpen]);
+  }, [isModalOpen, router]);
 
   const fetchNameProduct = async (id: number) => {
     try {
@@ -96,7 +96,9 @@ export default function Movements() {
 
         {typeof movements === "string" ? (
           <View className="flex-col items-center justify-center mt-10">
-            <Text className="text-2xl w-full text-center">Você não possui movimentações</Text>
+            <Text className="text-2xl w-full text-center">
+              Você não possui movimentações
+            </Text>
           </View>
         ) : (
           <ScrollView className="w-full h-full">

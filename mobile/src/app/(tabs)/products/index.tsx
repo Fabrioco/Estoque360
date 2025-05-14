@@ -18,7 +18,7 @@ export default function ProductList() {
 
   React.useEffect(() => {
     refetch();
-  }, [isModalVisible]);
+  }, [isModalVisible, router]);
 
   if (isLoading) {
     return (
