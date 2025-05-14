@@ -12,7 +12,10 @@ export class MovementController {
     if (!createMovementDto.productId || !createMovementDto.type) {
       throw new ForbiddenException("Preencha todos os campos");
     }
-    createMovementDto.date = new Date().toISOString();
+    const now = new Date();
+    const offSet = now.getTimezoneOffset() * 60000;
+    const localISOTime = new Date(now.getTime() - offSet).toISOString().slice(0, 19);
+    createMovementDto.date = localISOTime;
     return this.movementService.create(createMovementDto);
   }
 
@@ -39,7 +42,7 @@ export class MovementController {
 
   @Delete(":id")
   remove(@Param("id") id: string) {
-    if(isNaN(+id)) {
+    if (isNaN(+id)) {
       throw new ConflictException("Id inválido");
     }
     return this.movementService.remove(+id);
