@@ -3,7 +3,7 @@ import { Product } from "../types/productType";
 import React from "react";
 
 const api = axios.create({
-  baseURL: "http://192.168.10.17:3000",
+  baseURL: "http://192.168.1.64:3000",
   timeout: 5000,
 });
 
