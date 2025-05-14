@@ -12,8 +12,6 @@ export default function RootLayout() {
         <Header />
 
         <Slot screenOptions={{ headerShown: false }} />
-
-        <Text>@ 2025 - Todos os direitos reservados</Text>
       </View>
     </AnimatedScreen>
   );
