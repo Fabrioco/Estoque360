@@ -1,95 +1,72 @@
-# 📱 React Native Template com NativeWind
+# Aplicativo Mobile - Estoque 360
 
-Este repositório é um **template inicial para projetos React Native** utilizando o [NativeWind](https://www.nativewind.dev/) — uma biblioteca que traz o poder do Tailwind CSS para o React Native.
+## Visão Geral
 
-## 🚀 Tecnologias Utilizadas
+O aplicativo móvel do Estoque 360 é uma solução avançada para o gerenciamento de estoque de lojas. Desenvolvido utilizando React Native e Expo, o aplicativo oferece funcionalidades para cadastro, edição, remoção de produtos e movimentações, garantindo um controle eficiente do estoque.
 
-- [React Native](https://reactnative.dev/)
-- [NativeWind](https://www.nativewind.dev/)
-- [Tailwind CSS (estilo via classes utilitárias)](https://tailwindcss.com/)
-- [Expo](https://expo.dev/)
+## 📱 Tecnologias Utilizadas
 
-## 📦 Como Usar
+- **React Native**: Para desenvolvimento de aplicativos móveis multiplataforma.
+- **Expo**: Para construção e execução do aplicativo.
+- **Axios**: Para requisições HTTP.
+- **React Navigation**: Para navegação dentro do app.
+- **Tailwind CSS**: Para estilização.
 
-### 1. Clone o repositório
+## 🚀 Começando
 
-```bash
-git clone https://github.com/Fabrioco/Template-React-Native-com-NativeWind.git
-cd nome-do-repositorio
-```
+### Pré-requisitos
 
-### 2. Instale as dependências
+Certifique-se de ter as seguintes ferramentas instaladas:
 
-```bash
-npm install
-# ou
-yarn
-```
+- Node.js
+- NPM ou Yarn
+- Expo CLI
+- Android Studio ou Expo Go para testar o aplicativo em um dispositivo físico ou emulador.
 
-### 3. Inicie o projeto
+### Instalação
 
-```bash
-npx react-native run-android
-# ou
-npx react-native run-ios
-# ou, se estiver usando Expo:
-npx expo start
-```
+Siga os passos abaixo para configurar o ambiente e executar o aplicativo:
 
-# 🎨 Exemplo de Uso do NativeWind
+1. Clone o repositório:
 
-```bash
-import { View, Text } from 'react-native';
+   ```bash
+   git clone https://github.com/Fabrioco/Estoque360
+   cd estoque360/mobile
+   ```
 
-export default function App() {
-  return (
-    <View className="flex-1 items-center justify-center bg-white">
-      <Text className="text-2xl font-bold text-blue-600">Hello NativeWind!</Text>
-    </View>
-  );
-}
-```
+2. Instale as dependências:
 
-# 📁 Estrutura do Projeto
+   ```bash
+   npm install
+   # ou
+   yarn install
+   ```
 
-```bash
-📦 nome-do-projeto
-├── App.tsx
-├── tailwind.config.js
-├── babel.config.js
-├── package.json
-└── ...
-```
+3. Inicie o aplicativo mobile:
 
-# 🛠 Configuração do NativeWind
+   ```bash
+   npm start
+   # ou
+   yarn start
+   ```
 
-Certifique-se de que o arquivo **tailwind.config.js** está corretamente configurado:
+   Use o Expo Go para escanear o código QR e visualizar o aplicativo em um dispositivo físico, ou use um emulador configurado no Android Studio.
 
-```bash
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ["./App.{js,jsx,ts,tsx}", "./src/**/*.{js,jsx,ts,tsx}"],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
-```
+## 📂 Estrutura do Projeto
 
-E o **babel.config.js** também deve conter:
+- **src/app**: Contém as telas e layouts principais do aplicativo.
+- **src/components**: Componentes reutilizáveis em todo o aplicativo.
+- **src/hooks**: Hooks personalizados para lógica de negócios.
+- **src/styles**: Arquivos CSS, principalmente utilizando Tailwind CSS.
 
-```bash
-module.exports = function(api) {
-  api.cache(true);
-  return {
-    presets: ['babel-preset-expo'],
-    plugins: ['nativewind/babel'],
-  };
-};
-```
+## Contribuição
 
-## 🤝 Contribuição
-Sinta-se à vontade para abrir issues ou pull requests para melhorias ou sugestões
+Se você deseja contribuir para o projeto, siga as diretrizes de contribuição e sinta-se à vontade para abrir issues ou enviar pull requests.
 
+## Licença
 
-Desenvolvido por [Fabrício Oliveira Lopes](github.com/Fabrioco)
+Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+
+---
+
+Para mais informações, consulte a documentação do projeto principal [Estoque 360](https://github.com/Fabrioco/Estoque360).
