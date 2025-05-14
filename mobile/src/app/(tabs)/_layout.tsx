@@ -8,6 +8,22 @@ export default function TabLayout() {
         headerShown: false,
         tabBarInactiveTintColor: "#9ca3af",
         tabBarActiveTintColor: "#000",
+        tabBarStyle: {
+          backgroundColor: "#fff",
+          width: "50%",
+          flexDirection: "row",
+          margin: "auto",
+          borderRadius: 50,
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+        },
+        tabBarIconStyle: {
+          margin: 0,
+          width: 24,
+          backgroundColor: "transparent",
+        },
+        tabBarLabelPosition: "below-icon",
       }}
     >
       <Tabs.Screen
