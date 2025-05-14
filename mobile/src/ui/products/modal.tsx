@@ -52,7 +52,7 @@ export function ModalProduct({
     try {
       setLoading(true);
       const res = await axios.post(
-        "http://192.168.10.17:3000/product",
+        "http://192.168.1.64:3000/product",
         product
       );
       Alert.alert("Sucesso", res.data);

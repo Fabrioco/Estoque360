@@ -47,7 +47,7 @@ export default function ModalMovements({
 
   const handleAddMovement = async () => {
     try {
-      const res = await axios.post(`http://192.168.10.17:3000/movement`, {
+      const res = await axios.post(`http://192.168.1.64:3000/movement`, {
         productId: movements.productId,
         type: movements.type,
         quantity: movements.quantity,
