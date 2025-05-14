@@ -53,26 +53,36 @@ export function Notification() {
 
   if (verifyMinQuantity()) {
     return (
-      <Animated.View style={[{ height: animation }]}>
-        <TouchableOpacity onPress={toggleSideBar}>
-          <Bell size={30} weight="bold" />
-          {shouldShowNotification && (
-            <View>
-              <Text>{lowStockProducts.length}</Text>
-            </View>
-          )}
-        </TouchableOpacity>
-
-        {isModalVisible && shouldShowNotification && (
-          <ScrollView>
-            {lowStockProducts.map((product) => (
-              <View key={product.id}>
-                <Text>{product.name}</Text>
-                <Text>
-                  Stock: {product.currentQuantity} (Min: {product.minQuantity})
+      <Animated.View style={[{ height: animation }]} className="flex-col">
+        <View className="flex-row items-center justify-end">
+          <TouchableOpacity onPress={toggleSideBar} className="relative">
+            <Bell size={30} weight="bold" />
+            {shouldShowNotification && (
+              <View className="absolute top-0 right-0 bg-red-500 rounded-full w-4 h-4 flex items-center justify-center">
+                <Text className="text-sm text-white">
+                  {lowStockProducts.length}
                 </Text>
               </View>
-            ))}
+            )}
+          </TouchableOpacity>
+        </View>
+
+        {isModalVisible && shouldShowNotification && (
+          <ScrollView className="flex-1">
+            <View className="flex-col gap-2">
+              {lowStockProducts.map((product) => (
+                <View
+                  key={product.id}
+                  className="flex-col border-b border-gray-400"
+                >
+                  <Text className="font-bold text-lg">{product.name}</Text>
+                  <Text>
+                    Atual: {product.currentQuantity} (Min: {product.minQuantity}
+                    )
+                  </Text>
+                </View>
+              ))}
+            </View>
           </ScrollView>
         )}
       </Animated.View>
@@ -80,13 +90,20 @@ export function Notification() {
   }
 
   return (
-    <Animated.View style={[{ height: animation }]}>
-      <TouchableOpacity onPress={toggleSideBar}>
-        <Bell size={30} weight="bold" />
-      </TouchableOpacity>
-      <View>
-        {isModalVisible && <Text>Não há produtos com estoque baixo</Text>}
+    <Animated.View style={[{ height: animation }]} className="flex-col">
+      <View className="flex-row items-center justify-end">
+        <TouchableOpacity onPress={toggleSideBar} className="relative">
+          <Bell size={30} weight="bold" />
+        </TouchableOpacity>
       </View>
+
+      {isModalVisible && (
+        <View className="w-11/12 mx-auto mt-5">
+          <Text className="text-lg text-right">
+            Nenhum produto em estoque baixo
+          </Text>
+        </View>
+      )}
     </Animated.View>
   );
 }
