@@ -21,8 +21,17 @@ export const useGetProducts = () => {
 
     try {
       const response = await api.get("/product");
-      setData(response.data);
-      return response.data;
+      const dataOrganized = response.data.sort((a: Product, b: Product) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      });
+      setData(dataOrganized);
+      return dataOrganized;
     } catch (err) {
       const error = err as Error;
       setError(error);
