@@ -34,7 +34,7 @@ export default function MovementDetail() {
   const fetchMovement = async () => {
     try {
       setIsLoading(true);
-      const res = await axios.get(`http://192.168.10.17:3000/movement/${id}`);
+      const res = await axios.get(`http://192.168.1.64:3000/movement/${id}`);
       setMovement(res.data);
       const name = await fetchNameProduct(res.data.productId);
       setMovement({ ...res.data, name });
@@ -56,7 +56,7 @@ export default function MovementDetail() {
 
   const fetchNameProduct = async (id: number) => {
     try {
-      const res = await axios.get(`http://192.168.10.17:3000/product/${id}`);
+      const res = await axios.get(`http://192.168.1.64:3000/product/${id}`);
       const data = await res.data;
       return data.name;
     } catch (error) {
@@ -75,7 +75,7 @@ export default function MovementDetail() {
     try {
       const { name, ...movementWithoutName } = movement as Movement;
       const res = await axios.patch(
-        `http://192.168.10.17:3000/movement/${id}`,
+        `http://192.168.1.64:3000/movement/${id}`,
         movementWithoutName
       );
 
@@ -97,7 +97,7 @@ export default function MovementDetail() {
   const handleDeleteMovement = async () => {
     try {
       const res = await axios.delete(
-        `http://192.168.10.17:3000/movement/${id}`
+        `http://192.168.1.64:3000/movement/${id}`
       );
       Alert.alert("Sucesso", res.data);
       router.back();

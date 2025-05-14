@@ -31,7 +31,7 @@ export default function Movements() {
   React.useEffect(() => {
     const fetchMovements = async () => {
       try {
-        const res = await axios.get("http://192.168.10.17:3000/movement");
+        const res = await axios.get("http://192.168.1.64:3000/movement");
         const data = await res.data;
         setMovements(data as Movement[]);
         const names = await Promise.all(
@@ -59,7 +59,7 @@ export default function Movements() {
 
   const fetchNameProduct = async (id: number) => {
     try {
-      const res = await axios.get(`http://192.168.10.17:3000/product/${id}`);
+      const res = await axios.get(`http://192.168.1.64:3000/product/${id}`);
       const data = await res.data;
       return data.name;
     } catch (error) {

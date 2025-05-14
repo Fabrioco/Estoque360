@@ -52,7 +52,7 @@ export default function ScreenProduct() {
   const handleEditProduct = async () => {
     try {
       const res = await axios.patch(
-        `http://192.168.10.17:3000/product/${id}`,
+        `http://192.168.1.64:3000/product/${id}`,
         product
       );
       setProduct(product as Product);
@@ -74,7 +74,7 @@ export default function ScreenProduct() {
 
   const handleDeleteProduct = async () => {
     try {
-      const res = await axios.delete(`http://192.168.10.17:3000/product/${id}`);
+      const res = await axios.delete(`http://192.168.1.64:3000/product/${id}`);
       Alert.alert("Sucesso", res.data);
       router.back();
     } catch (error) {
