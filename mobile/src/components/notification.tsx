@@ -17,7 +17,7 @@ export function Notification() {
   React.useEffect(() => {
     const interval = setInterval(() => {
       refetch();
-    }, 30000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
