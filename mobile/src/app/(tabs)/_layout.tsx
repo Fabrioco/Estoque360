@@ -13,6 +13,7 @@ export default function TabLayout() {
           width: "50%",
           flexDirection: "row",
           margin: "auto",
+          marginBottom: 16,
           borderRadius: 50,
         },
         tabBarLabelStyle: {
