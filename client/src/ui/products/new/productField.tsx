@@ -5,6 +5,7 @@ type ProductFieldProps = {
   type?: string;
   nameId: string;
   placeholder: string;
+  disabled?: boolean;
 };
 
 export function ProductField({
@@ -14,6 +15,7 @@ export function ProductField({
   type = "text",
   nameId,
   placeholder,
+  disabled = false,
 }: ProductFieldProps) {
   return (
     <div className="flex flex-col">
@@ -25,7 +27,8 @@ export function ProductField({
         name={nameId}
         id={nameId}
         placeholder={placeholder}
-        className="border border-gray-300 rounded-full bg-slate-50 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-300"
+        className="border border-gray-300 rounded-full bg-slate-50 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-300 disabled:bg-slate-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+        disabled={disabled}
       />
     </div>
   );
