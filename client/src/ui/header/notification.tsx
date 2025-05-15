@@ -86,7 +86,7 @@ export function Notification() {
       </div>
       {isModalVisible && (
         <div className="bg-white rounded-b-xl w-full">
-          <p className="font-bold text-lg mb-4">
+          <p className="font-bold text-lg mb-4 text-end">
             Não há produtos em baixo estoque
           </p>
         </div>
