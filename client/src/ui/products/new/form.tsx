@@ -1,7 +1,7 @@
 "use client";
 
-import { Product } from "@/app/page";
-import { CircleNotch, PlusCircle } from "@phosphor-icons/react";
+import { Product } from "@/types/productType";
+import { CircleNotch } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { ProductField } from "./productField";

@@ -1,14 +1,7 @@
 import Link from "next/link";
 import { PlusCircle } from "@phosphor-icons/react/dist/ssr";
+import { Product } from "@/types/productType";
 
-type Product = {
-  id: number;
-  name: string;
-  currentQuantity: number;
-  minQuantity: number;
-  purchasePrice: number;
-  salePrice: number;
-};
 
 export default async function Home() {
   const res = await fetch("http://localhost:3000/product", {
