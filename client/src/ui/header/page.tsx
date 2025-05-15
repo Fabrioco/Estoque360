@@ -1,5 +1,6 @@
 import { Bell, BoxArrowUp } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
+import { Notification } from "./notification";
 
 export function Header() {
   return (
@@ -9,9 +10,7 @@ export function Header() {
           <BoxArrowUp size={32} weight="bold" />
           Estoque360
         </h1>
-        <button>
-          <Bell size={32} weight="bold" />
-        </button>
+        <Notification />
       </div>
       <nav>
         <ul className="flex flex-row gap-4">
