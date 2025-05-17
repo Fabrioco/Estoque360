@@ -20,7 +20,7 @@ export function Header() {
             </Link>
           </li>
           <li>
-            <Link href="/">
+            <Link href="/movements">
               <p>Movimentações</p>
             </Link>
           </li>
