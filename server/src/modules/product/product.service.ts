@@ -18,7 +18,7 @@ export class ProductService {
     try {
       const product = this.productRepository.create(createProductDto);
       await this.productRepository.save(product);
-      return "Produto criado com sucesso";
+      return { message: "Produto criado com sucesso" };
     } catch (error) {
       if (error instanceof ConflictException) {
         throw new ConflictException(error.message);
@@ -30,7 +30,7 @@ export class ProductService {
   async findAll(): Promise<Product[] | string> {
     try {
       const products = await this.productRepository.find();
-      return products.length ? products : "Você não possui nenhum produto cadastrado";
+      return products.length ? products : [];
     } catch (error) {
       if (error instanceof ConflictException) {
         throw new ConflictException(error.message);
