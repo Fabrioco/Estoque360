@@ -2,12 +2,15 @@ import Link from "next/link";
 import { PlusCircle } from "@phosphor-icons/react/dist/ssr";
 import { Product } from "@/types/productType";
 
-
 export default async function Home() {
   const res = await fetch("http://localhost:3000/product", {
     cache: "no-cache",
   });
-  const products: Product[] = await res.json();
+
+  let products: Product[] | [];
+
+  const data = await res.json();
+  products = data;
 
   return (
     <div className="flex flex-col items-center p-2">
@@ -24,40 +27,48 @@ export default async function Home() {
       </div>
 
       <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full mt-4">
-        {products.map((product) => (
-          <li
-            key={product.id}
-            className="bg-white px-4 py-2 rounded-full flex flex-row h-auto items-center justify-between text-sm w-full gap-1"
-          >
-            <h2 className="text-lg font-bold w-2/12">{product.name}</h2>
-            <div className="flex flex-col justify-between items-center gap-2">
-              <p className="flex flex-col">
-                Atual:
-                <span className="font-bold">{product.currentQuantity}</span>
-              </p>
-              <p className="flex flex-col ">
-                Mín.:<span className="font-bold">{product.minQuantity}</span>
-              </p>
-            </div>
-
-            <div className="flex flex-col justify-between items-center gap-2">
-              <p className="flex flex-col">
-                Compra:
-                <span className="font-bold">R$ {product.purchasePrice}</span>
-              </p>
-              <p className="flex flex-col">
-                Venda:<span className="font-bold">R$ {product.salePrice}</span>
-              </p>
-            </div>
-
-            <Link
-              href={`/products/${product.id}`}
-              className="bg-black text-white px-4 py-2 rounded-full text-center font-bold"
+        {typeof products === "string" ? (
+          <p className="text-center">Nenhum produto cadastrado</p>
+        ) : products.length === 0 ? (
+          <p className="text-center">Nenhum produto encontrado.</p>
+        ) : (
+          products.map((product) => (
+            <li
+              key={product.id}
+              className="bg-white px-4 py-2 rounded-full flex flex-row h-auto items-center justify-between text-sm w-full gap-1"
             >
-              Ver mais
-            </Link>
-          </li>
-        ))}
+              <h2 className="text-lg font-bold w-2/12">{product.name}</h2>
+              <div className="flex flex-col justify-between items-center gap-2">
+                <p className="flex flex-col">
+                  Atual:
+                  <span className="font-bold">{product.currentQuantity}</span>
+                </p>
+                <p className="flex flex-col ">
+                  Mín.:
+                  <span className="font-bold">{product.minQuantity}</span>
+                </p>
+              </div>
+
+              <div className="flex flex-col justify-between items-center gap-2">
+                <p className="flex flex-col">
+                  Compra:
+                  <span className="font-bold">R$ {product.purchasePrice}</span>
+                </p>
+                <p className="flex flex-col">
+                  Venda:
+                  <span className="font-bold">R$ {product.salePrice}</span>
+                </p>
+              </div>
+
+              <Link
+                href={`/products/${product.id}`}
+                className="bg-black text-white px-4 py-2 rounded-full text-center font-bold"
+              >
+                Ver mais
+              </Link>
+            </li>
+          ))
+        )}
       </ul>
     </div>
   );
